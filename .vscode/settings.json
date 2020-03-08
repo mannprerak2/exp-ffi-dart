@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.svelte": "html",
+        "stb_image.h": "c",
+        "encode.h": "c"
+    }
+}

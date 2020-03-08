@@ -33,7 +33,7 @@ int main(int argc, const char **argv) {
 const char *blurHashForFile(int xComponents, int yComponents,const char *filename) {
 	int width, height, channels;
 	unsigned char *data = stbi_load(filename, &width, &height, &channels, 3);
-	if(!data) return NULL;
+	if(!data) return filename;
 
 	const char *hash = blurHashForPixels(xComponents, yComponents, width, height, data, width * 3);
 
