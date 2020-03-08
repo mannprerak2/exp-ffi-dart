@@ -6,7 +6,7 @@ void main(List<String> arguments) {
     if (arguments[0] == '--help' || arguments[0] == '-h') {
       printHelp();
     } else {
-      
+          
     }
   }
 }
