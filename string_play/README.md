@@ -1,4 +1,12 @@
-A simple command-line application.
+A simple dart ffi program using few functions from string.h 
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+Demo Run
+
+```
+$ dart ./bin/main.dart
+Here's a String: Hello World
+Let's get the pointer the first occurance of 'W'
+Position of W is: 6
+and print the string from there
+World
+```
