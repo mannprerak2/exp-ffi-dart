@@ -1,4 +1,6 @@
 ### A Simple dart app to explore dart FFI. (Using BlurHash C API)
+BlurHash is a compact representation of a placeholder for an image.
+[blurha.sh](https://blurha.sh/)
 
 > *Input* -> An image file path
 >
