@@ -25,6 +25,10 @@ void main(List<String> arguments) {
       final blurHash = dylib
           .lookup<ffi.NativeFunction<blur_hash_c_func>>('blurHashForFile')
           .asFunction<BlurHash>();
+      // could have used helper function as well
+      // (can replace above line with below)
+      // final blurHash = dylib.lookupFunction<blur_hash_c_func,BlurHash>('blurHashForFile');
+      
       // Call the function
       int xComp = 4;
       int yComp = 3;
