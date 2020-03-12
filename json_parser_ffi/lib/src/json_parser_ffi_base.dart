@@ -1,6 +1,4 @@
-// TODO: Put public facing types in this file.
+import 'dart:ffi';
+import 'package:ffi/ffi.dart';
+import 'dart:io' show Platform;
 
-/// Checks if you are awesome. Spoiler: you are.
-class Awesome {
-  bool get isAwesome => true;
-}
