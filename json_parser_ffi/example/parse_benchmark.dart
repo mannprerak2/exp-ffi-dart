@@ -14,7 +14,7 @@ int stringToDartObj = 0;
 
 int count = 1;
 
-String cjsonStringMinified,dartConvertJsonStringMinified;
+String cjsonStringMinified, dartConvertJsonStringMinified;
 void main() {
   var jsonString = getJsonAsString();
 
@@ -25,7 +25,7 @@ void main() {
 
   printDetails();
   print('Are both jsons same?');
-  print(cjsonStringMinified==dartConvertJsonStringMinified);
+  print(cjsonStringMinified == dartConvertJsonStringMinified);
 }
 
 String getJsonAsString() {
@@ -49,7 +49,7 @@ void cjson_parseJson(String jsonString) {
   cJsonToDartObj += stopwatch.elapsedMilliseconds;
   stopwatch.stop();
 
-  cjsonStringMinified = Utf8.fromUtf8(cJson_PrintUnformatted(parsedJson));
+  cjsonStringMinified = json.encode(obj);
 }
 
 void dartConvertParseJson(String jsonString) {
@@ -57,7 +57,7 @@ void dartConvertParseJson(String jsonString) {
   var obj = json.decode(jsonString);
   stringToDartObj += stopwatch.elapsedMilliseconds;
   stopwatch.stop();
-  
+
   dartConvertJsonStringMinified = json.encode(obj);
 }
 
@@ -96,10 +96,14 @@ dynamic _convertCJsonToDartObj(Pointer<CJson> cjson) {
   } else if (cjson.ref.type == Types.cJSON_String) {
     obj = Utf8.fromUtf8(cjson.ref.valueString);
   } else if (cjson.ref.type == Types.cJSON_Number) {
-    obj = cjson.ref.valuedouble;
-  } else if(cjson.ref.type == Types.cJSON_True){
+    if (cjson.ref.valueInt.toDouble() == cjson.ref.valuedouble) {
+      obj = cjson.ref.valueInt;
+    } else {
+      obj = cjson.ref.valuedouble;
+    }
+  } else if (cjson.ref.type == Types.cJSON_True) {
     obj = true;
-  } else if(cjson.ref.type == Types.cJSON_False){
+  } else if (cjson.ref.type == Types.cJSON_False) {
     obj = false;
   }
 
