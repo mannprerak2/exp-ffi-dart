@@ -13,6 +13,8 @@ int cJsonToDartObj = 0;
 int stringToDartObj = 0;
 
 int count = 1;
+
+String cjsonStringMinified,dartConvertJsonStringMinified;
 void main() {
   var jsonString = getJsonAsString();
 
@@ -22,6 +24,8 @@ void main() {
   }
 
   printDetails();
+  print('Are both jsons same?');
+  print(cjsonStringMinified==dartConvertJsonStringMinified);
 }
 
 String getJsonAsString() {
@@ -44,6 +48,8 @@ void cjson_parseJson(String jsonString) {
   var obj = _convertCJsonToDartObj(parsedJson);
   cJsonToDartObj += stopwatch.elapsedMilliseconds;
   stopwatch.stop();
+
+  cjsonStringMinified = Utf8.fromUtf8(cJson_PrintUnformatted(parsedJson));
 }
 
 void dartConvertParseJson(String jsonString) {
@@ -51,6 +57,8 @@ void dartConvertParseJson(String jsonString) {
   var obj = json.decode(jsonString);
   stringToDartObj += stopwatch.elapsedMilliseconds;
   stopwatch.stop();
+  
+  dartConvertJsonStringMinified = json.encode(obj);
 }
 
 void printDetails() {

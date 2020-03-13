@@ -8,6 +8,8 @@ CJSON: (String to char*) + (char* to CJSON) + (CJSON to dart object)
         Time = 1039ms
 dart:convert: (String to dart object)
         Time = 35ms
+Are both jsons same?
+true
 ```
 ```
 Test file size: 4.243239mb
@@ -17,6 +19,8 @@ CJSON: (String to char*) + (char* to CJSON) + (CJSON to dart object)
         Time = 1126ms
 dart:convert: (String to dart object)
         Time = 58ms
+Are both jsons same?
+true
 ```
 # Example (see example folder)
 
