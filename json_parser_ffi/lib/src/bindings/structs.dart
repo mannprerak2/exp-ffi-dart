@@ -14,4 +14,6 @@ class CJson extends Struct {
   double valuedouble;
 
   Pointer<Utf8> string;
+
+  CJson._();
 }

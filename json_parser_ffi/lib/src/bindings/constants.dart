@@ -9,3 +9,8 @@ class Types {
   static const cJSON_Object = (1 << 6);
   static const cJSON_Raw = (1 << 7);
 }
+
+class Bools {
+  static const cJSON_Bool_False = 0;
+  static const cJSON_Bool_True = 1;
+}
