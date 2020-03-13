@@ -13,7 +13,7 @@ void main() {
   cJson_Delete(parent);
 
   print(
-      "Here's a JSON file created programatically using cJSON native library:-");
+      "Here's some JSON created programatically using cJSON native library:-");
   print(jsonString);
   print("Let's parse this JSON string back...");
 
@@ -23,13 +23,13 @@ void main() {
     return;
   }
   print(
-      'JSON is parsed and stored as a C structure, let\'s iterate over it and make a Map');
+      'JSON is parsed and stored as a C structure, let\'s iterate over it and make a dart Map...');
 
   var dartJson = convertCJsonToDartObj(parsedJson);
 
   // cleanup memory
   cJson_Delete(parsedJson);
-
+  print('Print the Map-');
   print(dartJson.toString());
 }
 
