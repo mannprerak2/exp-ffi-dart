@@ -12,7 +12,7 @@ int cJsonToDartObj = 0;
 // for dart:convert
 int stringToDartObj = 0;
 
-int count = 1;
+int count = 100;
 
 String cjsonStringMinified, dartConvertJsonStringMinified;
 void main() {

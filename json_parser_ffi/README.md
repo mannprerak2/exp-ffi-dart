@@ -1,24 +1,27 @@
 A demo library for JSON parsing using cJSON and dart:ffi
 # Benchmark
+JIT compiler
 ```
 Test file size: 4.243239mb
 Time is average of 100 iterations...
 CJSON: (String to char*) + (char* to CJSON) + (CJSON to dart object)
-          25.14ms         +     51.42ms       +       963.11ms
-        Time = 1039ms
+          25.44ms         +     50.89ms       +       958.99ms
+        Time = 1035ms
 dart:convert: (String to dart object)
-        Time = 35ms
+        Time = 38ms
 Are both jsons same?
 true
 ```
+
+AOT compiler
 ```
 Test file size: 4.243239mb
-Time is average of 1 iterations...
+Time is average of 100 iterations...
 CJSON: (String to char*) + (char* to CJSON) + (CJSON to dart object)
-          33.0ms         +     50.0ms       +       1043.0ms
-        Time = 1126ms
+          52.8ms         +     41.34ms       +       831.56ms
+        Time = 925ms
 dart:convert: (String to dart object)
-        Time = 58ms
+        Time = 55ms
 Are both jsons same?
 true
 ```
