@@ -12,7 +12,7 @@ int cJsonToDartObj = 0;
 // for dart:convert
 int stringToDartObj = 0;
 
-int count = 100;
+int count = 10;
 
 String cjsonStringMinified, dartConvertJsonStringMinified;
 void main() {
@@ -49,6 +49,9 @@ void cjson_parseJson(String jsonString) {
   cJsonToDartObj += stopwatch.elapsedMilliseconds;
   stopwatch.stop();
 
+  // free(cString);
+  // free(parsedJson);
+  
   cjsonStringMinified = json.encode(obj);
 }
 

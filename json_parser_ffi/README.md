@@ -25,6 +25,8 @@ dart:convert: (String to dart object)
 Are both jsons same?
 true
 ```
+### Observatory CPU profile
+![Observatory CPU profile](./observatory-cpuprofile.png)
 # Example (see example folder)
 
 Demo Run
