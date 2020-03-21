@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   ffi: ^0.1.3
+  ffi_tool: ^0.2.2
 
 #  path: ^1.6.0
 
