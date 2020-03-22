@@ -106,9 +106,9 @@ typedef _clang_disposeTranslationUnit_Dart = void Function(
 
 /// C function `clang_getNumDiagnostics`.
 int clang_getNumDiagnostics(
-  ffi.Pointer<ffi.Void> unit,
+  ffi.Pointer<ffi.Void> cxtranslationunit,
 ) {
-  return _clang_getNumDiagnostics(unit);
+  return _clang_getNumDiagnostics(cxtranslationunit);
 }
 
 final _clang_getNumDiagnostics_Dart _clang_getNumDiagnostics = _dynamicLibrary
@@ -116,10 +116,10 @@ final _clang_getNumDiagnostics_Dart _clang_getNumDiagnostics = _dynamicLibrary
   'clang_getNumDiagnostics',
 );
 typedef _clang_getNumDiagnostics_C = ffi.Uint32 Function(
-  ffi.Pointer<ffi.Void> unit,
+  ffi.Pointer<ffi.Void> cxtranslationunit,
 );
 typedef _clang_getNumDiagnostics_Dart = int Function(
-  ffi.Pointer<ffi.Void> unit,
+  ffi.Pointer<ffi.Void> cxtranslationunit,
 );
 
 /// C function `clang_getDiagnostic`.
@@ -196,12 +196,60 @@ typedef _clang_getCString_Dart = ffi.Pointer<ffi.Utf8> Function(
   ffi.Pointer<CXString> cxstringPtr,
 );
 
-/// C struct `CXTranslationUnitImpl`.
-class CXTranslationUnitImpl extends ffi.Struct {
-  static ffi.Pointer<CXTranslationUnitImpl> allocate() {
-    return ffi.allocate<CXTranslationUnitImpl>();
-  }
+/// C function `clang_getCursorKind`.
+int clang_getCursorKind(
+  ffi.Pointer<CXCursor> cursor,
+) {
+  return _clang_getCursorKind(cursor);
 }
+
+final _clang_getCursorKind_Dart _clang_getCursorKind = _dynamicLibrary
+    .lookupFunction<_clang_getCursorKind_C, _clang_getCursorKind_Dart>(
+  'clang_getCursorKind',
+);
+typedef _clang_getCursorKind_C = ffi.Int32 Function(
+  ffi.Pointer<CXCursor> cursor,
+);
+typedef _clang_getCursorKind_Dart = int Function(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+/// C function `clang_getCursorSpelling`.
+ffi.Pointer<CXString> clang_getCursorSpelling(
+  ffi.Pointer<CXCursor> cursor,
+) {
+  return _clang_getCursorSpelling(cursor);
+}
+
+final _clang_getCursorSpelling_Dart _clang_getCursorSpelling = _dynamicLibrary
+    .lookupFunction<_clang_getCursorSpelling_C, _clang_getCursorSpelling_Dart>(
+  'clang_getCursorSpelling',
+);
+typedef _clang_getCursorSpelling_C = ffi.Pointer<CXString> Function(
+  ffi.Pointer<CXCursor> cursor,
+);
+typedef _clang_getCursorSpelling_Dart = ffi.Pointer<CXString> Function(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+/// C function `clang_getTranslationUnitCursor`.
+ffi.Pointer<CXCursor> clang_getTranslationUnitCursor(
+  ffi.Pointer<ffi.Void> cxtranslation_unit,
+) {
+  return _clang_getTranslationUnitCursor(cxtranslation_unit);
+}
+
+final _clang_getTranslationUnitCursor_Dart _clang_getTranslationUnitCursor =
+    _dynamicLibrary.lookupFunction<_clang_getTranslationUnitCursor_C,
+        _clang_getTranslationUnitCursor_Dart>(
+  'clang_getTranslationUnitCursor',
+);
+typedef _clang_getTranslationUnitCursor_C = ffi.Pointer<CXCursor> Function(
+  ffi.Pointer<ffi.Void> cxtranslation_unit,
+);
+typedef _clang_getTranslationUnitCursor_Dart = ffi.Pointer<CXCursor> Function(
+  ffi.Pointer<ffi.Void> cxtranslation_unit,
+);
 
 /// C struct `CXUnsavedFile`.
 class CXUnsavedFile extends ffi.Struct {
@@ -214,5 +262,12 @@ class CXUnsavedFile extends ffi.Struct {
 class CXString extends ffi.Struct {
   static ffi.Pointer<CXString> allocate() {
     return ffi.allocate<CXString>();
+  }
+}
+
+/// C struct `CXCursor`.
+class CXCursor extends ffi.Struct {
+  static ffi.Pointer<CXCursor> allocate() {
+    return ffi.allocate<CXCursor>();
   }
 }

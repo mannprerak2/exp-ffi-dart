@@ -1,5 +1,5 @@
 struct List
 {
-    int a
+    int a;
 };
-int sum(struct List *L)
+int sum(struct List *L);

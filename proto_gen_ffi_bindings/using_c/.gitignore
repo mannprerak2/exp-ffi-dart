@@ -1,0 +1,6 @@
+*
+
+!.gitignore
+!CMakeLists.txt
+!test_in_c.c
+!run.sh
