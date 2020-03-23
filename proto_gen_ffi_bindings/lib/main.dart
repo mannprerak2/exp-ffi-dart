@@ -4,14 +4,15 @@ import 'clang_bindings/generated_bindings.dart' as bindings;
 import 'clang_bindings/constants.dart';
 
 void main(List<String> arguments) {
-  // print("cmd arguments: " + arguments.toString());
-  // if (arguments.length < 1) {
-  //   print("Please input source file as cmd argument");
-  //   return;
-  // }
+  String file =
+      './test.h'; // default if file name isn't given via cmd line args
+  if (arguments.length > 0) {
+    print("cmd arguments: " + arguments.toString());
+    file = arguments[0];
+  }
   var index = bindings.clang_createIndex(0, 0);
 
-  var tu = bindings.clang_parseTranslationUnit(index, Utf8.toUtf8('./test.h'),
+  var tu = bindings.clang_parseTranslationUnit(index, Utf8.toUtf8(file),
       nullptr, 0, nullptr, 0, Constants.CXTranslationUnit_None);
 
   if (tu == nullptr) {
@@ -20,11 +21,11 @@ void main(List<String> arguments) {
   }
 
   printAllDiagnostic(tu);
-  var rootcxcursor = bindings.clang_getTranslationUnitCursor(tu);
+  var rootCursor = bindings.clang_getTranslationUnitCursor(tu);
 
-  // print(bindings.clang_getCursorKind(rootcxcursor));
+  print(bindings.clang_getCursorKind(rootCursor));
 
-  // print(bindings.clang_getCursorKind(tu));
+  print(bindings.clang_getCursorKind(rootCursor));
 
   bindings.clang_disposeTranslationUnit(tu);
   bindings.clang_disposeIndex(index);

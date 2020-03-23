@@ -17,7 +17,7 @@ void main() {
 
 final library = const Library(
   // Where the library is found?
-  dynamicLibraryPath: '/usr/lib/llvm-9/lib/libclang.so.1',
+  dynamicLibraryPath: './wrapped_libclang_library/libwrapped_clang.so',
 
   // Optional imports
   importedUris: {},
@@ -109,7 +109,7 @@ final library = const Library(
       name: 'clang_getTranslationUnitCursor',
       parameterTypes: [_cxtranslationunit],
       parameterNames: ['cxtranslation_unit'],
-      returnType: '*CXCursor',
+      returnType: 'ffi.Pointer',
     ),
     // Struct(name: 'CXTranslationUnitImpl', fields: []),
     Struct(name: 'CXUnsavedFile', fields: []),

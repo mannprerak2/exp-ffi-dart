@@ -5,7 +5,7 @@ import 'package:ffi/ffi.dart' as ffi;
 
 /// Dynamic library
 final ffi.DynamicLibrary _dynamicLibrary = ffi.DynamicLibrary.open(
-  '/usr/lib/llvm-9/lib/libclang.so.1',
+  './wrapped_libclang_library/libwrapped_clang.so',
 );
 
 /// C function `clang_createIndex`.
@@ -233,7 +233,7 @@ typedef _clang_getCursorSpelling_Dart = ffi.Pointer<CXString> Function(
 );
 
 /// C function `clang_getTranslationUnitCursor`.
-ffi.Pointer<CXCursor> clang_getTranslationUnitCursor(
+ffi.Pointer clang_getTranslationUnitCursor(
   ffi.Pointer<ffi.Void> cxtranslation_unit,
 ) {
   return _clang_getTranslationUnitCursor(cxtranslation_unit);
@@ -244,10 +244,10 @@ final _clang_getTranslationUnitCursor_Dart _clang_getTranslationUnitCursor =
         _clang_getTranslationUnitCursor_Dart>(
   'clang_getTranslationUnitCursor',
 );
-typedef _clang_getTranslationUnitCursor_C = ffi.Pointer<CXCursor> Function(
+typedef _clang_getTranslationUnitCursor_C = ffi.Pointer Function(
   ffi.Pointer<ffi.Void> cxtranslation_unit,
 );
-typedef _clang_getTranslationUnitCursor_Dart = ffi.Pointer<CXCursor> Function(
+typedef _clang_getTranslationUnitCursor_Dart = ffi.Pointer Function(
   ffi.Pointer<ffi.Void> cxtranslation_unit,
 );
 

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.svelte": "html",
-        "index.h": "c"
+        "index.h": "c",
+        "stdio.h": "c"
     }
 }
