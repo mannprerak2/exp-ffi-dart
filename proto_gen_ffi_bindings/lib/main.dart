@@ -44,7 +44,7 @@ void printAllDiagnostic(Pointer<bindings.CXTranslationUnitImpl> tu) {
   print("Total errors: $total");
   for (int i = 0; i < total; i++) {
     var diag = bindings.clang_getDiagnostic(tu, i);
-    var cxstring = bindings.clang_formatDiagnostic(diag, 0);
+    var cxstring = bindings.clang_formatDiagnostic_wrap(diag, 0);
     cxstring.printStr();
   }
 }
@@ -53,12 +53,14 @@ extension on Pointer<bindings.CXString> {
   void printStr() {
     var str = bindings.clang_getCString_wrap(this);
     print(Utf8.fromUtf8(str));
+    free(str);
   }
 
   String str() {
     var str = bindings.clang_getCString_wrap(this);
     var s = Utf8.fromUtf8(str);
     print(s);
+    free(str);
     return s;
   }
 }

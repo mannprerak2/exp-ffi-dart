@@ -44,11 +44,9 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-// TODO: see why using CXString* isn't working
-// note that in dart the function binding has Pointer<CXString> here
-const char *clang_getCString_wrap(CXString string)
+const char *clang_getCString_wrap(CXString *string)
 {
-    const char *a = clang_getCString(string);
+    const char *a = clang_getCString(*string);
 
     return a;
 }
@@ -75,4 +73,11 @@ CXCursor *clang_getTranslationUnitCursor_wrap(CXTranslationUnit tu)
     CXCursor *c = aloc(CXCursor);
     *c = clang_getTranslationUnitCursor(tu);
     return c;
+}
+
+CXString *clang_formatDiagnostic_wrap(CXDiagnostic diag, int opts)
+{
+    CXString *s = aloc(CXString);
+    *s = clang_formatDiagnostic(diag, opts);
+    return s;
 }

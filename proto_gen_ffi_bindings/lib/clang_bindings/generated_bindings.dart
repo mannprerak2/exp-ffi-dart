@@ -145,23 +145,24 @@ typedef _clang_getDiagnostic_Dart = ffi.Pointer<ffi.Void> Function(
   int position,
 );
 
-/// C function `clang_formatDiagnostic`.
-ffi.Pointer<CXString> clang_formatDiagnostic(
+/// C function `clang_formatDiagnostic_wrap`.
+ffi.Pointer<CXString> clang_formatDiagnostic_wrap(
   ffi.Pointer<ffi.Void> diagnostic,
   int diagnosticOptions,
 ) {
-  return _clang_formatDiagnostic(diagnostic, diagnosticOptions);
+  return _clang_formatDiagnostic_wrap(diagnostic, diagnosticOptions);
 }
 
-final _clang_formatDiagnostic_Dart _clang_formatDiagnostic = _dynamicLibrary
-    .lookupFunction<_clang_formatDiagnostic_C, _clang_formatDiagnostic_Dart>(
-  'clang_formatDiagnostic',
+final _clang_formatDiagnostic_wrap_Dart _clang_formatDiagnostic_wrap =
+    _dynamicLibrary.lookupFunction<_clang_formatDiagnostic_wrap_C,
+        _clang_formatDiagnostic_wrap_Dart>(
+  'clang_formatDiagnostic_wrap',
 );
-typedef _clang_formatDiagnostic_C = ffi.Pointer<CXString> Function(
+typedef _clang_formatDiagnostic_wrap_C = ffi.Pointer<CXString> Function(
   ffi.Pointer<ffi.Void> diagnostic,
   ffi.Uint32 diagnosticOptions,
 );
-typedef _clang_formatDiagnostic_Dart = ffi.Pointer<CXString> Function(
+typedef _clang_formatDiagnostic_wrap_Dart = ffi.Pointer<CXString> Function(
   ffi.Pointer<ffi.Void> diagnostic,
   int diagnosticOptions,
 );

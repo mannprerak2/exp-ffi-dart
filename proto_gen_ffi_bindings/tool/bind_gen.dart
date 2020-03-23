@@ -80,7 +80,7 @@ final library = const Library(
       parameterNames: ['cxTranslationUnit', 'position'],
     ),
     Func(
-      name: 'clang_formatDiagnostic',
+      name: 'clang_formatDiagnostic_wrap',
       parameterTypes: [_voidPointer, 'Uint32'],
       parameterNames: ['diagnostic', 'diagnosticOptions'],
       returnType: '*$_cxString',
