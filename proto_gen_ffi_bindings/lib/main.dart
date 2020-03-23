@@ -21,11 +21,9 @@ void main(List<String> arguments) {
   }
 
   printAllDiagnostic(tu);
-  var rootCursor = bindings.clang_getTranslationUnitCursor(tu);
+  var rootCursor = bindings.clang_getTranslationUnitCursor_wrap(tu);
 
-  print(bindings.clang_getCursorKind(rootCursor));
-
-  print(bindings.clang_getCursorKind(rootCursor));
+  if (rootCursor != nullptr) print(rootCursor.ref.kind);
 
   bindings.clang_disposeTranslationUnit(tu);
   bindings.clang_disposeIndex(index);
@@ -41,28 +39,26 @@ void main(List<String> arguments) {
 ///
 ///
 
-void printAllDiagnostic(Pointer<Void> tu) {
+void printAllDiagnostic(Pointer<bindings.CXTranslationUnitImpl> tu) {
   var total = bindings.clang_getNumDiagnostics(tu);
   print("Total errors: $total");
   for (int i = 0; i < total; i++) {
     var diag = bindings.clang_getDiagnostic(tu, i);
     var cxstring = bindings.clang_formatDiagnostic(diag, 0);
-
     cxstring.printStr();
   }
 }
 
 extension on Pointer<bindings.CXString> {
   void printStr() {
-    var str = bindings.clang_getCString(this);
+    var str = bindings.clang_getCString_wrap(this);
     print(Utf8.fromUtf8(str));
-    free(str);
   }
 
   String str() {
-    var str = bindings.clang_getCString(this);
+    var str = bindings.clang_getCString_wrap(this);
     var s = Utf8.fromUtf8(str);
-    free(str);
+    print(s);
     return s;
   }
 }

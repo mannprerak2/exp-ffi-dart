@@ -5,10 +5,13 @@ const _voidPointer = '*ffi.Void';
 const _charPointer = '*ffi.Utf8';
 const _charPointerPointer = '**ffi.Utf8';
 
+const _cxTranslationUnitImp = 'CXTranslationUnitImpl';
+const _cxUnsavedFile = 'CXUnsavedFile';
+const _cxString = 'CXString';
+const _cxCursor = 'CXCursor';
+
 const _cxindex = _voidPointer;
-const _cxcursor = _voidPointer;
-const _cxtranslationunit = _voidPointer;
-const _cxstring = _voidPointer;
+const _cxtranslationunit = '*$_cxTranslationUnitImp';
 
 void main() {
   // Generates source code and runs 'dartfmt'
@@ -32,7 +35,7 @@ final library = const Library(
     ),
     Func(
       name: 'clang_disposeIndex',
-      parameterTypes: [_voidPointer],
+      parameterTypes: [_cxindex],
       parameterNames: ['index'],
       returnType: 'void',
     ),
@@ -43,12 +46,12 @@ final library = const Library(
         _charPointer,
         _charPointerPointer,
         'int32',
-        '*CXUnsavedFile',
+        '*$_cxUnsavedFile',
         'uint32',
         'uint32'
       ],
       parameterNames: [
-        'CIdx',
+        'cxindex',
         'source_filename',
         'cmd_line_args',
         'num_cmd_line_args',
@@ -80,7 +83,7 @@ final library = const Library(
       name: 'clang_formatDiagnostic',
       parameterTypes: [_voidPointer, 'Uint32'],
       parameterNames: ['diagnostic', 'diagnosticOptions'],
-      returnType: '*CXString',
+      returnType: '*$_cxString',
     ),
     Func(
       name: 'clang_defaultDiagnosticDisplayOptions',
@@ -88,32 +91,41 @@ final library = const Library(
       returnType: 'Uint32',
     ),
     Func(
-      name: 'clang_getCString',
-      parameterTypes: ['*CXString'],
+      name: 'clang_getCString_wrap',
+      parameterTypes: ['*$_cxString'],
       parameterNames: ['cxstringPtr'],
       returnType: _charPointer,
     ),
     Func(
-      name: 'clang_getCursorKind',
-      parameterTypes: ['*CXCursor'],
+      name: 'clang_disposeString_wrap',
+      parameterTypes: ['*$_cxString'],
+      parameterNames: ['cxstringPtr'],
+      returnType: 'void',
+    ),
+    Func(
+      name: 'clang_getCursorKind_wrap',
+      parameterTypes: ['*$_cxCursor'],
       parameterNames: ['cursor'],
       returnType: 'int32',
     ),
     Func(
-      name: 'clang_getCursorSpelling',
-      parameterTypes: ['*CXCursor'],
+      name: 'clang_getCursorSpelling_wrap',
+      parameterTypes: ['*$_cxCursor'],
       parameterNames: ['cursor'],
-      returnType: '*CXString',
+      returnType: '*$_cxString',
     ),
     Func(
-      name: 'clang_getTranslationUnitCursor',
+      name: 'clang_getTranslationUnitCursor_wrap',
       parameterTypes: [_cxtranslationunit],
       parameterNames: ['cxtranslation_unit'],
-      returnType: 'ffi.Pointer',
+      returnType: '*$_cxCursor',
     ),
     // Struct(name: 'CXTranslationUnitImpl', fields: []),
-    Struct(name: 'CXUnsavedFile', fields: []),
-    Struct(name: 'CXString', fields: []),
-    Struct(name: 'CXCursor', fields: []),
+    Struct(name: _cxUnsavedFile, fields: []),
+    Struct(name: _cxString, fields: []),
+    Struct(name: _cxCursor, fields: [
+      Field(type: 'int32', name: 'kind'),
+    ]),
+    Struct(name: _cxTranslationUnitImp, fields: []),
   ],
 );

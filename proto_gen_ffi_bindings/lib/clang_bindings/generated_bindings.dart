@@ -48,8 +48,8 @@ typedef _clang_disposeIndex_Dart = void Function(
 );
 
 /// C function `clang_parseTranslationUnit`.
-ffi.Pointer<ffi.Void> clang_parseTranslationUnit(
-  ffi.Pointer<ffi.Void> CIdx,
+ffi.Pointer<CXTranslationUnitImpl> clang_parseTranslationUnit(
+  ffi.Pointer<ffi.Void> cxindex,
   ffi.Pointer<ffi.Utf8> source_filename,
   ffi.Pointer<ffi.Pointer<ffi.Utf8>> cmd_line_args,
   int num_cmd_line_args,
@@ -57,7 +57,7 @@ ffi.Pointer<ffi.Void> clang_parseTranslationUnit(
   int num_unsaved_files,
   int options,
 ) {
-  return _clang_parseTranslationUnit(CIdx, source_filename, cmd_line_args,
+  return _clang_parseTranslationUnit(cxindex, source_filename, cmd_line_args,
       num_cmd_line_args, unsaved_files, num_unsaved_files, options);
 }
 
@@ -66,8 +66,9 @@ final _clang_parseTranslationUnit_Dart _clang_parseTranslationUnit =
         _clang_parseTranslationUnit_Dart>(
   'clang_parseTranslationUnit',
 );
-typedef _clang_parseTranslationUnit_C = ffi.Pointer<ffi.Void> Function(
-  ffi.Pointer<ffi.Void> CIdx,
+typedef _clang_parseTranslationUnit_C = ffi.Pointer<CXTranslationUnitImpl>
+    Function(
+  ffi.Pointer<ffi.Void> cxindex,
   ffi.Pointer<ffi.Utf8> source_filename,
   ffi.Pointer<ffi.Pointer<ffi.Utf8>> cmd_line_args,
   ffi.Int32 num_cmd_line_args,
@@ -75,8 +76,9 @@ typedef _clang_parseTranslationUnit_C = ffi.Pointer<ffi.Void> Function(
   ffi.Uint32 num_unsaved_files,
   ffi.Uint32 options,
 );
-typedef _clang_parseTranslationUnit_Dart = ffi.Pointer<ffi.Void> Function(
-  ffi.Pointer<ffi.Void> CIdx,
+typedef _clang_parseTranslationUnit_Dart = ffi.Pointer<CXTranslationUnitImpl>
+    Function(
+  ffi.Pointer<ffi.Void> cxindex,
   ffi.Pointer<ffi.Utf8> source_filename,
   ffi.Pointer<ffi.Pointer<ffi.Utf8>> cmd_line_args,
   int num_cmd_line_args,
@@ -87,7 +89,7 @@ typedef _clang_parseTranslationUnit_Dart = ffi.Pointer<ffi.Void> Function(
 
 /// C function `clang_disposeTranslationUnit`.
 void clang_disposeTranslationUnit(
-  ffi.Pointer<ffi.Void> cxtranslation_unit,
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
 ) {
   _clang_disposeTranslationUnit(cxtranslation_unit);
 }
@@ -98,15 +100,15 @@ final _clang_disposeTranslationUnit_Dart _clang_disposeTranslationUnit =
   'clang_disposeTranslationUnit',
 );
 typedef _clang_disposeTranslationUnit_C = ffi.Void Function(
-  ffi.Pointer<ffi.Void> cxtranslation_unit,
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
 );
 typedef _clang_disposeTranslationUnit_Dart = void Function(
-  ffi.Pointer<ffi.Void> cxtranslation_unit,
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
 );
 
 /// C function `clang_getNumDiagnostics`.
 int clang_getNumDiagnostics(
-  ffi.Pointer<ffi.Void> cxtranslationunit,
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslationunit,
 ) {
   return _clang_getNumDiagnostics(cxtranslationunit);
 }
@@ -116,15 +118,15 @@ final _clang_getNumDiagnostics_Dart _clang_getNumDiagnostics = _dynamicLibrary
   'clang_getNumDiagnostics',
 );
 typedef _clang_getNumDiagnostics_C = ffi.Uint32 Function(
-  ffi.Pointer<ffi.Void> cxtranslationunit,
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslationunit,
 );
 typedef _clang_getNumDiagnostics_Dart = int Function(
-  ffi.Pointer<ffi.Void> cxtranslationunit,
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslationunit,
 );
 
 /// C function `clang_getDiagnostic`.
 ffi.Pointer<ffi.Void> clang_getDiagnostic(
-  ffi.Pointer<ffi.Void> cxTranslationUnit,
+  ffi.Pointer<CXTranslationUnitImpl> cxTranslationUnit,
   int position,
 ) {
   return _clang_getDiagnostic(cxTranslationUnit, position);
@@ -135,11 +137,11 @@ final _clang_getDiagnostic_Dart _clang_getDiagnostic = _dynamicLibrary
   'clang_getDiagnostic',
 );
 typedef _clang_getDiagnostic_C = ffi.Pointer<ffi.Void> Function(
-  ffi.Pointer<ffi.Void> cxTranslationUnit,
+  ffi.Pointer<CXTranslationUnitImpl> cxTranslationUnit,
   ffi.Int32 position,
 );
 typedef _clang_getDiagnostic_Dart = ffi.Pointer<ffi.Void> Function(
-  ffi.Pointer<ffi.Void> cxTranslationUnit,
+  ffi.Pointer<CXTranslationUnitImpl> cxTranslationUnit,
   int position,
 );
 
@@ -178,77 +180,100 @@ final _clang_defaultDiagnosticDisplayOptions_Dart
 typedef _clang_defaultDiagnosticDisplayOptions_C = ffi.Uint32 Function();
 typedef _clang_defaultDiagnosticDisplayOptions_Dart = int Function();
 
-/// C function `clang_getCString`.
-ffi.Pointer<ffi.Utf8> clang_getCString(
+/// C function `clang_getCString_wrap`.
+ffi.Pointer<ffi.Utf8> clang_getCString_wrap(
   ffi.Pointer<CXString> cxstringPtr,
 ) {
-  return _clang_getCString(cxstringPtr);
+  return _clang_getCString_wrap(cxstringPtr);
 }
 
-final _clang_getCString_Dart _clang_getCString =
-    _dynamicLibrary.lookupFunction<_clang_getCString_C, _clang_getCString_Dart>(
-  'clang_getCString',
+final _clang_getCString_wrap_Dart _clang_getCString_wrap = _dynamicLibrary
+    .lookupFunction<_clang_getCString_wrap_C, _clang_getCString_wrap_Dart>(
+  'clang_getCString_wrap',
 );
-typedef _clang_getCString_C = ffi.Pointer<ffi.Utf8> Function(
+typedef _clang_getCString_wrap_C = ffi.Pointer<ffi.Utf8> Function(
   ffi.Pointer<CXString> cxstringPtr,
 );
-typedef _clang_getCString_Dart = ffi.Pointer<ffi.Utf8> Function(
+typedef _clang_getCString_wrap_Dart = ffi.Pointer<ffi.Utf8> Function(
   ffi.Pointer<CXString> cxstringPtr,
 );
 
-/// C function `clang_getCursorKind`.
-int clang_getCursorKind(
-  ffi.Pointer<CXCursor> cursor,
+/// C function `clang_disposeString_wrap`.
+void clang_disposeString_wrap(
+  ffi.Pointer<CXString> cxstringPtr,
 ) {
-  return _clang_getCursorKind(cursor);
+  _clang_disposeString_wrap(cxstringPtr);
 }
 
-final _clang_getCursorKind_Dart _clang_getCursorKind = _dynamicLibrary
-    .lookupFunction<_clang_getCursorKind_C, _clang_getCursorKind_Dart>(
-  'clang_getCursorKind',
+final _clang_disposeString_wrap_Dart _clang_disposeString_wrap =
+    _dynamicLibrary.lookupFunction<_clang_disposeString_wrap_C,
+        _clang_disposeString_wrap_Dart>(
+  'clang_disposeString_wrap',
 );
-typedef _clang_getCursorKind_C = ffi.Int32 Function(
-  ffi.Pointer<CXCursor> cursor,
+typedef _clang_disposeString_wrap_C = ffi.Void Function(
+  ffi.Pointer<CXString> cxstringPtr,
 );
-typedef _clang_getCursorKind_Dart = int Function(
-  ffi.Pointer<CXCursor> cursor,
+typedef _clang_disposeString_wrap_Dart = void Function(
+  ffi.Pointer<CXString> cxstringPtr,
 );
 
-/// C function `clang_getCursorSpelling`.
-ffi.Pointer<CXString> clang_getCursorSpelling(
+/// C function `clang_getCursorKind_wrap`.
+int clang_getCursorKind_wrap(
   ffi.Pointer<CXCursor> cursor,
 ) {
-  return _clang_getCursorSpelling(cursor);
+  return _clang_getCursorKind_wrap(cursor);
 }
 
-final _clang_getCursorSpelling_Dart _clang_getCursorSpelling = _dynamicLibrary
-    .lookupFunction<_clang_getCursorSpelling_C, _clang_getCursorSpelling_Dart>(
-  'clang_getCursorSpelling',
+final _clang_getCursorKind_wrap_Dart _clang_getCursorKind_wrap =
+    _dynamicLibrary.lookupFunction<_clang_getCursorKind_wrap_C,
+        _clang_getCursorKind_wrap_Dart>(
+  'clang_getCursorKind_wrap',
 );
-typedef _clang_getCursorSpelling_C = ffi.Pointer<CXString> Function(
+typedef _clang_getCursorKind_wrap_C = ffi.Int32 Function(
   ffi.Pointer<CXCursor> cursor,
 );
-typedef _clang_getCursorSpelling_Dart = ffi.Pointer<CXString> Function(
+typedef _clang_getCursorKind_wrap_Dart = int Function(
   ffi.Pointer<CXCursor> cursor,
 );
 
-/// C function `clang_getTranslationUnitCursor`.
-ffi.Pointer clang_getTranslationUnitCursor(
-  ffi.Pointer<ffi.Void> cxtranslation_unit,
+/// C function `clang_getCursorSpelling_wrap`.
+ffi.Pointer<CXString> clang_getCursorSpelling_wrap(
+  ffi.Pointer<CXCursor> cursor,
 ) {
-  return _clang_getTranslationUnitCursor(cxtranslation_unit);
+  return _clang_getCursorSpelling_wrap(cursor);
 }
 
-final _clang_getTranslationUnitCursor_Dart _clang_getTranslationUnitCursor =
-    _dynamicLibrary.lookupFunction<_clang_getTranslationUnitCursor_C,
-        _clang_getTranslationUnitCursor_Dart>(
-  'clang_getTranslationUnitCursor',
+final _clang_getCursorSpelling_wrap_Dart _clang_getCursorSpelling_wrap =
+    _dynamicLibrary.lookupFunction<_clang_getCursorSpelling_wrap_C,
+        _clang_getCursorSpelling_wrap_Dart>(
+  'clang_getCursorSpelling_wrap',
 );
-typedef _clang_getTranslationUnitCursor_C = ffi.Pointer Function(
-  ffi.Pointer<ffi.Void> cxtranslation_unit,
+typedef _clang_getCursorSpelling_wrap_C = ffi.Pointer<CXString> Function(
+  ffi.Pointer<CXCursor> cursor,
 );
-typedef _clang_getTranslationUnitCursor_Dart = ffi.Pointer Function(
-  ffi.Pointer<ffi.Void> cxtranslation_unit,
+typedef _clang_getCursorSpelling_wrap_Dart = ffi.Pointer<CXString> Function(
+  ffi.Pointer<CXCursor> cursor,
+);
+
+/// C function `clang_getTranslationUnitCursor_wrap`.
+ffi.Pointer<CXCursor> clang_getTranslationUnitCursor_wrap(
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
+) {
+  return _clang_getTranslationUnitCursor_wrap(cxtranslation_unit);
+}
+
+final _clang_getTranslationUnitCursor_wrap_Dart
+    _clang_getTranslationUnitCursor_wrap = _dynamicLibrary.lookupFunction<
+        _clang_getTranslationUnitCursor_wrap_C,
+        _clang_getTranslationUnitCursor_wrap_Dart>(
+  'clang_getTranslationUnitCursor_wrap',
+);
+typedef _clang_getTranslationUnitCursor_wrap_C = ffi.Pointer<CXCursor> Function(
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
+);
+typedef _clang_getTranslationUnitCursor_wrap_Dart = ffi.Pointer<CXCursor>
+    Function(
+  ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
 );
 
 /// C struct `CXUnsavedFile`.
@@ -267,7 +292,17 @@ class CXString extends ffi.Struct {
 
 /// C struct `CXCursor`.
 class CXCursor extends ffi.Struct {
+  @ffi.Int32()
+  int kind;
+
   static ffi.Pointer<CXCursor> allocate() {
     return ffi.allocate<CXCursor>();
+  }
+}
+
+/// C struct `CXTranslationUnitImpl`.
+class CXTranslationUnitImpl extends ffi.Struct {
+  static ffi.Pointer<CXTranslationUnitImpl> allocate() {
+    return ffi.allocate<CXTranslationUnitImpl>();
   }
 }
