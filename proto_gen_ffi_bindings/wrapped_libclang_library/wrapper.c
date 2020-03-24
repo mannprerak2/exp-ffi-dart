@@ -7,7 +7,7 @@
 // START ===== Functions for testing libclang behavior in C
 enum CXChildVisitResult visitor_for_test_in_c(CXCursor cursor, CXCursor parent, CXClientData clientData)
 {
-    printf("Cursor- kind: %d, name: %s\n", clang_getCursorKind(cursor), clang_getCString(clang_getCursorSpelling(cursor)));
+    printf("Cursor- kind: %s, name: %s\n", clang_getCString(clang_getCursorKindSpelling(clang_getCursorKind(cursor))), clang_getCString(clang_getCursorSpelling(cursor)));
     return CXChildVisit_Continue;
 }
 int test_in_c()
@@ -53,6 +53,33 @@ enum CXCursorKind clang_getCursorKind_wrap(CXCursor *cursor)
     return clang_getCursorKind(*cursor);
 }
 
+CXString *clang_getCursorKindSpelling_wrap(enum CXCursorKind kind)
+{
+    CXString *s = aloc(CXString);
+    *s = clang_getCursorKindSpelling(kind);
+    return s;
+}
+
+CXType *clang_getCursorType_wrap(CXCursor *cursor)
+{
+    CXType *t = aloc(CXType);
+    *t = clang_getCursorType(*cursor);
+    return t;
+}
+
+CXString *clang_getTypeSpelling_wrap(CXType *type)
+{
+    CXString *s = aloc(CXString);
+    *s = clang_getTypeSpelling(*type);
+    return s;
+}
+
+CXType *clang_getResultType_wrap(CXType *functionType){
+    CXType *t = aloc(CXType);
+    *t = clang_getResultType(*functionType);
+    return t;
+}
+
 CXString *clang_getCursorSpelling_wrap(CXCursor *cursor)
 {
     CXString *s = aloc(CXString);
@@ -93,7 +120,10 @@ enum CXChildVisitResult _visitorwrap(CXCursor cursor, CXCursor parent, CXClientD
     CXCursor *nparent = aloc(CXCursor);
     *ncursor = cursor;
     *nparent = parent;
-    return modifiedVisitor(ncursor, nparent, clientData);
+    enum CXChildVisitResult e = modifiedVisitor(ncursor, nparent, clientData);
+    free(ncursor);
+    free(nparent);
+    return e;
 }
 
 // visitor is a function pointer with parameters having pointers to cxcursor

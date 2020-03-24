@@ -10,6 +10,7 @@ const _cxTranslationUnitImp = 'CXTranslationUnitImpl';
 const _cxUnsavedFile = 'CXUnsavedFile';
 const _cxString = 'CXString';
 const _cxCursor = 'CXCursor';
+const _cxType = 'CXType';
 
 const _cxindex = _voidPointer;
 const _cxtranslationunit = '*$_cxTranslationUnitImp';
@@ -24,9 +25,7 @@ final library = Library(
   dynamicLibraryPath: './wrapped_libclang_library/libwrapped_clang.so',
 
   // Optional imports
-  importedUris: {
-    ImportedUri('./typedefs.dart')
-  },
+  importedUris: {ImportedUri('./typedefs.dart')},
 
   /// List of generated functions, structs, and global variables
   elements: <Element>[
@@ -76,6 +75,12 @@ final library = Library(
       returnType: 'void',
     ),
     Func(
+      name: 'clang_getTranslationUnitCursor_wrap',
+      parameterTypes: [_cxtranslationunit],
+      parameterNames: ['cxtranslation_unit'],
+      returnType: '*$_cxCursor',
+    ),
+    Func(
       name: 'clang_getNumDiagnostics',
       parameterTypes: [_cxtranslationunit],
       parameterNames: ['cxtranslationunit'],
@@ -111,22 +116,40 @@ final library = Library(
       returnType: 'void',
     ),
     Func(
-      name: 'clang_getCursorKind_wrap',
-      parameterTypes: ['*$_cxCursor'],
-      parameterNames: ['cursor'],
-      returnType: 'int32',
-    ),
-    Func(
       name: 'clang_getCursorSpelling_wrap',
       parameterTypes: ['*$_cxCursor'],
       parameterNames: ['cursor'],
       returnType: '*$_cxString',
     ),
     Func(
-      name: 'clang_getTranslationUnitCursor_wrap',
-      parameterTypes: [_cxtranslationunit],
-      parameterNames: ['cxtranslation_unit'],
-      returnType: '*$_cxCursor',
+      name: 'clang_getCursorKind_wrap',
+      parameterTypes: ['*$_cxCursor'],
+      parameterNames: ['cursor'],
+      returnType: 'int32',
+    ),
+    Func(
+      name: 'clang_getCursorKindSpelling_wrap',
+      parameterTypes: ['int32'],
+      parameterNames: ['kind'],
+      returnType: '*$_cxString',
+    ),
+    Func(
+      name: 'clang_getCursorType_wrap',
+      parameterTypes: ['*$_cxCursor'],
+      parameterNames: ['cursor'],
+      returnType: '*$_cxType',
+    ),
+    Func(
+      name: 'clang_getTypeSpelling_wrap',
+      parameterTypes: ['*$_cxType'],
+      parameterNames: ['typePtr'],
+      returnType: '*$_cxString',
+    ),
+    Func(
+      name: 'clang_getResultType_wrap',
+      parameterTypes: ['*$_cxType'],
+      parameterNames: ['functionType'],
+      returnType: '*$_cxType',
     ),
     Func(
       name: 'clang_visitChildren_wrap',
@@ -138,6 +161,9 @@ final library = Library(
     Struct(name: _cxUnsavedFile, fields: []),
     Struct(name: _cxString, fields: []),
     Struct(name: _cxCursor, fields: [
+      Field(type: 'int32', name: 'kind'),
+    ]),
+    Struct(name: _cxType, fields: [
       Field(type: 'int32', name: 'kind'),
     ]),
     Struct(name: _cxTranslationUnitImp, fields: []),
