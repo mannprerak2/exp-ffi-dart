@@ -1,0 +1,1 @@
+dart tool/bind_gen.dart

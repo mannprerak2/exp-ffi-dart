@@ -5,27 +5,18 @@
 
 #define aloc(T) ((T *)malloc(sizeof(T)))
 
-char *stringcpy(const char *original)
+enum CXChildVisitResult visitor(CXCursor cursor, CXCursor parent, CXClientData clientData)
 {
-
-    int size = strlen(original);
-    char *copy = (char *)malloc((size + 1) * sizeof(char));
-
-    int i;
-    for (i = 0; original[i] != '\0'; i++)
-    {
-        copy[i] = original[i];
-    }
-    copy[i] = 0;
-    return copy;
+    printf("Cursor- kind: %d, name: %s\n", clang_getCursorKind(cursor), clang_getCString(clang_getCursorSpelling(cursor)));
+    return CXChildVisit_Continue;
 }
 
-int main(int argc, char *argv[])
+int test_in_c()
 {
     printf("==========================run==========================\n");
     CXIndex Index = clang_createIndex(0, 0);
     CXTranslationUnit TU = clang_parseTranslationUnit(Index,
-                                                      NULL, argv, argc, NULL, 0, CXTranslationUnit_None);
+                                                      "./test.h", 0, 0, NULL, 0, CXTranslationUnit_None);
 
     if (TU == NULL)
     {
@@ -35,8 +26,8 @@ int main(int argc, char *argv[])
 
     CXCursor root = clang_getTranslationUnitCursor(TU);
 
-    int a = clang_getCursorKind(root);
-    printf("%d\n", a);
+    
+    unsigned a = clang_visitChildren(root, visitor, NULL);
 
     clang_disposeTranslationUnit(TU);
     clang_disposeIndex(Index);

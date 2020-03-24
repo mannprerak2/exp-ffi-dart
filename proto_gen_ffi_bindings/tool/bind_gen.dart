@@ -28,6 +28,11 @@ final library = const Library(
   /// List of generated functions, structs, and global variables
   elements: <Element>[
     Func(
+      name: 'test_in_c',
+      parameterTypes: [],
+      returnType: 'int32'
+    ),
+    Func(
       name: 'clang_createIndex',
       parameterTypes: ['int32', 'int32'],
       parameterNames: ['excludeDeclarationsFromPCH', 'displayDiagnostics'],

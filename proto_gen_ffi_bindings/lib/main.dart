@@ -9,6 +9,12 @@ void main(List<String> arguments) {
   if (arguments.length > 0) {
     print("cmd arguments: " + arguments.toString());
     file = arguments[0];
+
+    if (arguments[0] == '--test') {
+      print("Running test funcion from C");
+      bindings.test_in_c();
+      return;
+    }
   }
   var index = bindings.clang_createIndex(0, 0);
 

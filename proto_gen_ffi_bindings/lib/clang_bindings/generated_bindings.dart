@@ -8,6 +8,18 @@ final ffi.DynamicLibrary _dynamicLibrary = ffi.DynamicLibrary.open(
   './wrapped_libclang_library/libwrapped_clang.so',
 );
 
+/// C function `test_in_c`.
+int test_in_c() {
+  return _test_in_c();
+}
+
+final _test_in_c_Dart _test_in_c =
+    _dynamicLibrary.lookupFunction<_test_in_c_C, _test_in_c_Dart>(
+  'test_in_c',
+);
+typedef _test_in_c_C = ffi.Int32 Function();
+typedef _test_in_c_Dart = int Function();
+
 /// C function `clang_createIndex`.
 ffi.Pointer<ffi.Void> clang_createIndex(
   int excludeDeclarationsFromPCH,
