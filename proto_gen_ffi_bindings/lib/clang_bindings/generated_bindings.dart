@@ -1,5 +1,6 @@
 // AUTOMATICALLY GENERATED. DO NOT EDIT.
 
+import './typedefs.dart';
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart' as ffi;
 
@@ -287,6 +288,34 @@ typedef _clang_getTranslationUnitCursor_wrap_C = ffi.Pointer<CXCursor> Function(
 typedef _clang_getTranslationUnitCursor_wrap_Dart = ffi.Pointer<CXCursor>
     Function(
   ffi.Pointer<CXTranslationUnitImpl> cxtranslation_unit,
+);
+
+/// C function `clang_visitChildren_wrap`.
+int clang_visitChildren_wrap(
+  ffi.Pointer<CXCursor> cursor,
+  ffi.Pointer<ffi.NativeFunction<visitorFunctionSignature>>
+      pointerToVisitorFunc,
+  ffi.Pointer clientData,
+) {
+  return _clang_visitChildren_wrap(cursor, pointerToVisitorFunc, clientData);
+}
+
+final _clang_visitChildren_wrap_Dart _clang_visitChildren_wrap =
+    _dynamicLibrary.lookupFunction<_clang_visitChildren_wrap_C,
+        _clang_visitChildren_wrap_Dart>(
+  'clang_visitChildren_wrap',
+);
+typedef _clang_visitChildren_wrap_C = ffi.Int32 Function(
+  ffi.Pointer<CXCursor> cursor,
+  ffi.Pointer<ffi.NativeFunction<visitorFunctionSignature>>
+      pointerToVisitorFunc,
+  ffi.Pointer clientData,
+);
+typedef _clang_visitChildren_wrap_Dart = int Function(
+  ffi.Pointer<CXCursor> cursor,
+  ffi.Pointer<ffi.NativeFunction<visitorFunctionSignature>>
+      pointerToVisitorFunc,
+  ffi.Pointer clientData,
 );
 
 /// C struct `CXUnsavedFile`.

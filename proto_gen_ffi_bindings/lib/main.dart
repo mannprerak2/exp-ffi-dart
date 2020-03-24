@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'clang_bindings/generated_bindings.dart' as bindings;
 import 'clang_bindings/constants.dart';
+import 'clang_bindings/typedefs.dart';
 
 void main(List<String> arguments) {
   String file =
@@ -29,21 +30,24 @@ void main(List<String> arguments) {
   printAllDiagnostic(tu);
   var rootCursor = bindings.clang_getTranslationUnitCursor_wrap(tu);
 
-  if (rootCursor != nullptr) print(rootCursor.ref.kind);
+  bindings.clang_visitChildren_wrap(
+    rootCursor,
+    Pointer.fromFunction(cursorVisitor, 0),
+    nullptr,
+  );
 
   bindings.clang_disposeTranslationUnit(tu);
   bindings.clang_disposeIndex(index);
 }
 
-///
-///
-///
-///
-///
-///
-///
-///
-///
+int cursorVisitor(Pointer<bindings.CXCursor> cursor,
+    Pointer<bindings.CXCursor> parent, Pointer<Void> clientData) {
+  print(cursor.ref.kind);
+
+  free(cursor);
+  free(parent);
+  return Constants.CXChildVisit_Continue;
+}
 
 void printAllDiagnostic(Pointer<bindings.CXTranslationUnitImpl> tu) {
   var total = bindings.clang_getNumDiagnostics(tu);

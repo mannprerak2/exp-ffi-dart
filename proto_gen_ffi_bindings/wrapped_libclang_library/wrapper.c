@@ -2,15 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #define aloc(T) ((T *)malloc(sizeof(T)))
 
-enum CXChildVisitResult visitor(CXCursor cursor, CXCursor parent, CXClientData clientData)
+// START ===== Functions for testing libclang behavior in C
+enum CXChildVisitResult visitor_for_test_in_c(CXCursor cursor, CXCursor parent, CXClientData clientData)
 {
     printf("Cursor- kind: %d, name: %s\n", clang_getCursorKind(cursor), clang_getCString(clang_getCursorSpelling(cursor)));
     return CXChildVisit_Continue;
 }
-
 int test_in_c()
 {
     printf("==========================run==========================\n");
@@ -26,14 +25,16 @@ int test_in_c()
 
     CXCursor root = clang_getTranslationUnitCursor(TU);
 
-    
-    unsigned a = clang_visitChildren(root, visitor, NULL);
+    unsigned a = clang_visitChildren(root, visitor_for_test_in_c, NULL);
 
     clang_disposeTranslationUnit(TU);
     clang_disposeIndex(Index);
     printf("\n==========================end==========================\n");
     return 0;
 }
+// END ===== Functions for testing libclang behavior in C ============================
+
+// START ===== WRAPPER FUNCTIONS =====================
 
 const char *clang_getCString_wrap(CXString *string)
 {
@@ -72,3 +73,35 @@ CXString *clang_formatDiagnostic_wrap(CXDiagnostic diag, int opts)
     *s = clang_formatDiagnostic(diag, opts);
     return s;
 }
+
+// alternative typedef for [CXCursorVisitor] using pointer for passing cursor and parent
+// instead of passing by value
+typedef enum CXChildVisitResult (*ModifiedCXCursorVisitor)(CXCursor *cursor,
+                                                           CXCursor *parent,
+                                                           CXClientData client_data);
+
+// global variable
+// holds Pointer to Dart function received from [clang_visitChildren_wrap]
+// called in [_visitorWrap]
+ModifiedCXCursorVisitor modifiedVisitor;
+
+// do not write binding for this function
+// used by [clang_visitChildren_wrap]
+enum CXChildVisitResult _visitorwrap(CXCursor cursor, CXCursor parent, CXClientData clientData)
+{
+    CXCursor *ncursor = aloc(CXCursor);
+    CXCursor *nparent = aloc(CXCursor);
+    *ncursor = cursor;
+    *nparent = parent;
+    return modifiedVisitor(ncursor, nparent, clientData);
+}
+
+// visitor is a function pointer with parameters having pointers to cxcursor
+// instead of cxcursor by default
+unsigned clang_visitChildren_wrap(CXCursor *parent, ModifiedCXCursorVisitor _modifiedVisitor, CXClientData clientData)
+{
+    modifiedVisitor = _modifiedVisitor;
+    return clang_visitChildren(*parent, _visitorwrap, clientData);
+}
+
+// END ===== WRAPPER FUNCTIONS =====================

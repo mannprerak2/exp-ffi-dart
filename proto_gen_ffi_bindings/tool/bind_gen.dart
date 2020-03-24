@@ -4,6 +4,7 @@ import 'dart:io';
 const _voidPointer = '*ffi.Void';
 const _charPointer = '*ffi.Utf8';
 const _charPointerPointer = '**ffi.Utf8';
+const _modifiedVisitorFuncPtr = '*ffi.NativeFunction<visitorFunctionSignature>';
 
 const _cxTranslationUnitImp = 'CXTranslationUnitImpl';
 const _cxUnsavedFile = 'CXUnsavedFile';
@@ -18,19 +19,21 @@ void main() {
   generateFile(File('lib/clang_bindings/generated_bindings.dart'), library);
 }
 
-final library = const Library(
+final library = Library(
   // Where the library is found?
   dynamicLibraryPath: './wrapped_libclang_library/libwrapped_clang.so',
 
   // Optional imports
-  importedUris: {},
+  importedUris: {
+    ImportedUri('./typedefs.dart')
+  },
 
   /// List of generated functions, structs, and global variables
   elements: <Element>[
     Func(
       name: 'test_in_c',
       parameterTypes: [],
-      returnType: 'int32'
+      returnType: 'int32',
     ),
     Func(
       name: 'clang_createIndex',
@@ -124,6 +127,12 @@ final library = const Library(
       parameterTypes: [_cxtranslationunit],
       parameterNames: ['cxtranslation_unit'],
       returnType: '*$_cxCursor',
+    ),
+    Func(
+      name: 'clang_visitChildren_wrap',
+      parameterTypes: ['*$_cxCursor', _modifiedVisitorFuncPtr, '*void'],
+      parameterNames: ['cursor', 'pointerToVisitorFunc', 'clientData'],
+      returnType: 'int32',
     ),
     // Struct(name: 'CXTranslationUnitImpl', fields: []),
     Struct(name: _cxUnsavedFile, fields: []),
