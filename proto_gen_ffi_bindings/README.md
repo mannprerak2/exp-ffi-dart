@@ -34,6 +34,11 @@ typedef _divide_Dart = ffi.Pointer<ffi.Float> Function(
 );
 
 ```
+## Project details -
+I am using ffi_tool to generate libclang functions and wrapper bindings (see [tool/bindgen.dart](./tool/bind_gen.dart)), Upon navigating the AST, Intermediate code representation is generated.
+This intermediate code is of type `Func` from ffi_tool.
+These `Func` objects are passed to ffi_tool again to generate bindings automatically.
+
 
 ## Challenges
 
