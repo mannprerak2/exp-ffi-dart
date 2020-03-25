@@ -6,6 +6,8 @@ import 'clang_bindings/constants.dart' as constants;
 import 'package:ffi_tool/c.dart';
 
 List<Element> elements = [];
+List<Pointer<bindings.CXCursor>> functionCursors = [];
+
 void main(List<String> arguments) {
   String file =
       './test.h'; // default if file name isn't given via cmd line args
@@ -32,11 +34,16 @@ void main(List<String> arguments) {
   printAllDiagnostic(tu);
   var rootCursor = bindings.clang_getTranslationUnitCursor_wrap(tu);
 
+  functionCursors.clear();
   bindings.clang_visitChildren_wrap(
     rootCursor,
     Pointer.fromFunction(rootCursorVisitor, 0),
     nullptr,
   );
+
+  for (var cursor in functionCursors) {
+    visitFunctionChildren(cursor);
+  }
 
   generateBindings();
   bindings.clang_disposeTranslationUnit(tu);
@@ -47,44 +54,58 @@ int rootCursorVisitor(Pointer<bindings.CXCursor> cursor,
     Pointer<bindings.CXCursor> parent, Pointer<Void> clientData) {
   if (bindings.clang_getCursorKind_wrap(cursor) ==
       constants.CursorKind.CXCursor_FunctionDecl) {
-    visitFunctionChildren(cursor);
+    functionCursors.add(cursor);
   }
+  free(parent);
   return constants.Visitor.CXChildVisit_Continue;
 }
 
 var parameterNames = <String>[];
 var parameterTypes = <String>[];
-int parameterCursorVisitor(Pointer<bindings.CXCursor> cursor,
-    Pointer<bindings.CXCursor> parent, Pointer<Void> clientData) {
-  if (bindings.clang_getCursorKind_wrap(cursor) ==
-      constants.CursorKind.CXCursor_ParmDecl) {
-    var name = cursor.spelling();
-    var type = cursor.typeSpelling();
-    parameterNames.add(name);
-    parameterTypes.add(type);
-  }
-  return constants.Visitor.CXChildVisit_Continue;
-}
-
 void visitFunctionChildren(Pointer<bindings.CXCursor> cursor) {
+  parameterNames.clear();
+  parameterTypes.clear();
   bindings.clang_visitChildren_wrap(
       cursor, Pointer.fromFunction(parameterCursorVisitor, 0), nullptr);
 
   elements.add(Func(
     name: cursor.spelling(),
-    parameterNames: parameterNames,
-    parameterTypes: parameterTypes,
+    parameterNames: List.from(parameterNames),
+    parameterTypes: List.from(parameterTypes),
     returnType: returnTypeString(bindings
         .clang_getResultType_wrap(bindings.clang_getCursorType_wrap(cursor))),
   ));
+  free(cursor);
 }
 
-String returnTypeString(Pointer<bindings.CXType> func) {
-  if (func.ref.kind == constants.CursorType.CXType_Int) {
-    return 'int32';
+int parameterCursorVisitor(Pointer<bindings.CXCursor> cursor,
+    Pointer<bindings.CXCursor> parent, Pointer<Void> clientData) {
+  if (bindings.clang_getCursorKind_wrap(cursor) ==
+      constants.CursorKind.CXCursor_ParmDecl) {
+    var name = cursor.spelling();
+    // print(bindings.clang_getCursorType_wrap(cursor).ref.kind==constants.CursorType.CXType_Pointer);
+    var type = returnTypeString(bindings.clang_getCursorType_wrap(cursor));
+    parameterNames.add(name);
+    parameterTypes.add(type);
   }
+  free(cursor);
+  free(parent);
+  return constants.Visitor.CXChildVisit_Continue;
+}
 
-  return 'unimplemented';
+String returnTypeString(Pointer<bindings.CXType> type) {
+  switch (type.ref.kind) {
+    case constants.CursorType.CXType_Int:
+      return 'int32';
+    case constants.CursorType.CXType_Float:
+      return 'float';
+    case constants.CursorType.CXType_Double:
+      return 'double';
+    case constants.CursorType.CXType_Pointer:
+      return '*' + returnTypeString(bindings.clang_getPointeeType_wrap(type));
+    default:
+      return 'unimplemented';
+  }
 }
 
 void printCursorInfo(Pointer<bindings.CXCursor> cursor) {

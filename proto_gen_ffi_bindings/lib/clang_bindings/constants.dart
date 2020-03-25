@@ -27,4 +27,6 @@ class CursorType {
   static const CXType_Int = 17;
   static const CXType_FunctionProto = 111;
   static const CXType_Pointer = 101;
+  static const CXType_Float = 21;
+  static const CXType_Double = 22;
 }

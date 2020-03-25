@@ -366,6 +366,25 @@ typedef _clang_getResultType_wrap_Dart = ffi.Pointer<CXType> Function(
   ffi.Pointer<CXType> functionType,
 );
 
+/// C function `clang_getPointeeType_wrap`.
+ffi.Pointer<CXType> clang_getPointeeType_wrap(
+  ffi.Pointer<CXType> pointerType,
+) {
+  return _clang_getPointeeType_wrap(pointerType);
+}
+
+final _clang_getPointeeType_wrap_Dart _clang_getPointeeType_wrap =
+    _dynamicLibrary.lookupFunction<_clang_getPointeeType_wrap_C,
+        _clang_getPointeeType_wrap_Dart>(
+  'clang_getPointeeType_wrap',
+);
+typedef _clang_getPointeeType_wrap_C = ffi.Pointer<CXType> Function(
+  ffi.Pointer<CXType> pointerType,
+);
+typedef _clang_getPointeeType_wrap_Dart = ffi.Pointer<CXType> Function(
+  ffi.Pointer<CXType> pointerType,
+);
+
 /// C function `clang_visitChildren_wrap`.
 int clang_visitChildren_wrap(
   ffi.Pointer<CXCursor> cursor,

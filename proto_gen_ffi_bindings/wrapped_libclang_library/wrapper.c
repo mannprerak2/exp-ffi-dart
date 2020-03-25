@@ -80,6 +80,12 @@ CXType *clang_getResultType_wrap(CXType *functionType){
     return t;
 }
 
+CXType *clang_getPointeeType_wrap(CXType *pointerType){
+    CXType *t = aloc(CXType);
+    *t = clang_getPointeeType(*pointerType);
+    return t;
+}
+
 CXString *clang_getCursorSpelling_wrap(CXCursor *cursor)
 {
     CXString *s = aloc(CXString);
@@ -121,8 +127,6 @@ enum CXChildVisitResult _visitorwrap(CXCursor cursor, CXCursor parent, CXClientD
     *ncursor = cursor;
     *nparent = parent;
     enum CXChildVisitResult e = modifiedVisitor(ncursor, nparent, clientData);
-    free(ncursor);
-    free(nparent);
     return e;
 }
 

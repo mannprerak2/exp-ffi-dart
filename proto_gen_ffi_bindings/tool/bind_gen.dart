@@ -152,6 +152,12 @@ final library = Library(
       returnType: '*$_cxType',
     ),
     Func(
+      name: 'clang_getPointeeType_wrap',
+      parameterTypes: ['*$_cxType'],
+      parameterNames: ['pointerType'],
+      returnType: '*$_cxType',
+    ),
+    Func(
       name: 'clang_visitChildren_wrap',
       parameterTypes: ['*$_cxCursor', _modifiedVisitorFuncPtr, '*void'],
       parameterNames: ['cursor', 'pointerToVisitorFunc', 'clientData'],
